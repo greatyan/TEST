@@ -4,13 +4,12 @@ import java.util.Arrays;
 
 public class Symbols {
 
-	static int[][] CODE_RANGES = new int[][] { new int[] { 0x1D00, 0x1D7F }, // Phonetic
-																				// Extensions
-			new int[] { 0x1D80, 0x1DBF }, // Phonetic Extensions Supplement
+	static int[][] CODE_RANGES = new int[][] { new int[] { 0x0020, 0x007F }, // ASCII
 			new int[] { 0x0250, 0x02AF }, // IPA Extensions
-			new int[] { 0x0270, 0x209F }, // Superscripts and Subscripts
+			new int[] { 0x0270, 0x029F }, // Superscripts and Subscripts
 			new int[] { 0x02B0, 0x02FF }, // Spacing Modifier Letters
-			new int[] { 0xA701, 0xA71F } // Modifier Tone Letters
+			new int[] { 0x1D00, 0x1D7F }, // Phonetic Extensions
+			new int[] { 0x1D80, 0x1DBF }, // Phonetic Extensions Supplement
 	};
 
 	static int SYMBOL_COUNT;
@@ -23,7 +22,7 @@ public class Symbols {
 		int index = 0;
 		for (int[] range : CODE_RANGES) {
 			for (int i = range[0]; i < range[1]; i++) {
-				SYMBOLS[index] = (char)i;
+				SYMBOLS[index] = (char) i;
 				index++;
 			}
 		}
@@ -40,7 +39,7 @@ public class Symbols {
 	static public int getSymbolIndex(char symbol) {
 		int index = Arrays.binarySearch(SYMBOLS, symbol);
 		if (index < 0) {
-			return -1;
+			return 0;
 		}
 		return index;
 	}
