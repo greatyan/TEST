@@ -7,13 +7,10 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -27,7 +24,7 @@ public class SymbolImage {
 	static public void generateImage(String fileName) throws IOException {
 
 		Font font = new Font(FONT_NAME, Font.PLAIN, FONT_SIZE);
-		SymbolDescription desc = createSymbolDescription(font);
+		SymbolImageDescription desc = createSymbolDescription(font);
 		BufferedImage image = drawPhoneticSymbols(desc, font);
 		ImageIO.write(image, "png", new File(fileName + ".png"));
 		FileOutputStream out = new FileOutputStream(fileName + ".dat");
@@ -38,55 +35,14 @@ public class SymbolImage {
 		}
 	}
 
-	private static class SymbolDescription {
-		int leading;
-		int ascent;
-		int descent;
-		int maxAscent;
-		int maxDescent;
-		int maxAdvance;
-		int[] widths;
-
-		void write(OutputStream stream) throws IOException {
-			DataOutputStream out = new DataOutputStream(stream);
-			out.writeInt(maxAscent);
-
-			out.writeInt(maxDescent);
-			out.writeInt(maxAdvance);
-			out.writeInt(ascent);
-			out.writeInt(descent);
-			out.writeInt(leading);
-			out.writeInt(widths.length);
-			for (int i = 0; i < widths.length; i++) {
-				out.writeInt(widths[i]);
-			}
-			out.flush();
-		}
-
-		void read(InputStream stream) throws IOException {
-			DataInputStream in = new DataInputStream(stream);
-			maxAscent = in.readInt();
-			maxDescent = in.readInt();
-			maxAdvance = in.readInt();
-			ascent = in.readInt();
-			descent = in.readInt();
-			leading = in.readInt();
-			int size = in.readInt();
-			widths = new int[size];
-			for (int i = 0; i < size; i++) {
-				widths[i] = in.readInt();
-			}
-		}
-	}
-
-	static private SymbolDescription createSymbolDescription(Font font) {
+	static private SymbolImageDescription createSymbolDescription(Font font) {
 		char[] symbols = Symbols.getSymbols();
 		BufferedImage bufferedImage = new BufferedImage(1, 1,
 				BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2d = bufferedImage.createGraphics();
 		g2d.setFont(font);
 		FontMetrics fontMetrics = g2d.getFontMetrics();
-		SymbolDescription desc = new SymbolDescription();
+		SymbolImageDescription desc = new SymbolImageDescription();
 		desc.ascent = fontMetrics.getAscent();
 		desc.descent = fontMetrics.getDescent();
 		desc.leading = fontMetrics.getLeading();
@@ -101,7 +57,7 @@ public class SymbolImage {
 		return desc;
 	}
 
-	static private BufferedImage drawPhoneticSymbols(SymbolDescription desc,
+	static private BufferedImage drawPhoneticSymbols(SymbolImageDescription desc,
 			Font font) {
 		// g2d always be 72dpi, so 1pt equals to 1px
 		char[] symbols = Symbols.getSymbols();
@@ -147,10 +103,10 @@ public class SymbolImage {
 		return bufferedImage;
 	}
 
-	private SymbolDescription symbolDesc;
+	private SymbolImageDescription symbolDesc;
 	private BufferedImage symbolImage;
 
-	SymbolImage() throws IOException {
+	public SymbolImage() throws IOException {
 		symbolDesc = loadDescription();
 		symbolImage = loadImage();
 	}
@@ -214,12 +170,12 @@ public class SymbolImage {
 		throw new IOException("can't load phonetic_32.png");
 	}
 
-	private SymbolDescription loadDescription() throws IOException {
+	private SymbolImageDescription loadDescription() throws IOException {
 		InputStream stream = SymbolImage.class
 				.getResourceAsStream("phonetic_32.dat");
 		if (stream != null) {
 			try {
-				SymbolDescription desc = new SymbolDescription();
+				SymbolImageDescription desc = new SymbolImageDescription();
 				desc.read(stream);
 				return desc;
 			} finally {
