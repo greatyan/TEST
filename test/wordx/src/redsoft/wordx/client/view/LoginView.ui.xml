@@ -1,0 +1,20 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.important {
+			font-weight: bold;
+		}
+	</ui:style>
+	<g:HTMLPanel>
+		<table>
+		<tr><th colspan="2">Select a User Name</th></tr>
+		<tr>
+		<td><g:ListBox width="16em" visibleItemCount="1" ui:field="userList"/></td><td><g:Button ui:field="loginButton" text="Login"/></td>
+		</tr>
+		<tr>
+		<td></td><td><g:Button text="New..." ui:field="newButton"/></td>
+		</tr></table>
+			
+	</g:HTMLPanel>
+</ui:UiBinder> 

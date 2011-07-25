@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+
+	<!-- Servlets -->
+	<servlet>
+        <servlet-name>ReviewService</servlet-name>
+        <servlet-class>
+            redsoft.wordx.server.ReviewServiceImpl
+        </servlet-class>
+    </servlet>
+	<servlet>
+        <servlet-name>BackupServlet</servlet-name>
+        <servlet-class>
+            redsoft.wordx.server.servlet.BackupServlet
+        </servlet-class>
+    </servlet>
+	<servlet>
+        <servlet-name>PronounceImageServlet</servlet-name>
+        <servlet-class>
+            redsoft.wordx.server.servlet.PronounceImageServlet
+        </servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>ReviewService</servlet-name>
+        <url-pattern>
+            /wordx/reviewService
+        </url-pattern>
+    </servlet-mapping>	
+
+    <servlet-mapping>
+        <servlet-name>BackupServlet</servlet-name>
+        <url-pattern>
+            /wordx/backup
+        </url-pattern>
+    </servlet-mapping>	
+
+    <servlet-mapping>
+        <servlet-name>PronounceImageServlet</servlet-name>
+        <url-pattern>
+            /wordx/pronounce
+        </url-pattern>
+    </servlet-mapping>	
+
+	<!-- Default page to serve -->
+	<welcome-file-list>
+		<welcome-file>wordx.html</welcome-file>
+	</welcome-file-list>
+
+</web-app>
