@@ -5,7 +5,13 @@ import redsoft.wordx.client.dict.GoogleDict;
 import redsoft.wordx.client.dict.GoogleDict.Result;
 import redsoft.wordx.shared.ReviewItem;
 
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.EventListener;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -38,6 +44,8 @@ public class DictPresenter implements Presenter {
 		Widget asWidget();
 
 		void setReviewed(boolean reviewd);
+
+		void playSound(String url);
 	}
 
 	protected long userId;
@@ -73,8 +81,44 @@ public class DictPresenter implements Presenter {
 						String htmlText = result.getHtmlText();
 						if (htmlText != null && htmlText.length() > 0) {
 							display.getExplain().setHTML(htmlText);
+							// add the click to all the images
 							DictPresenter.this.phonetic = result.getPhonetic();
 							display.enableAddReview(true);
+
+							// DOM.sinkEvents(display.getExplain().getElement(),
+							// Event.CLICK );
+							// display.getExplain().addClickHandler(new
+							// ClickHandler() {
+							// public void onClick(ClickEvent event) {
+							// Object src = event.getSource();
+							// display.playSound(anchorCtrl
+							// .getHref());
+							// }
+							// });
+
+							NodeList<Element> sounds = display.getExplain()
+									.getElement().getElementsByTagName("img");
+							for (int i = 0; i < sounds.getLength(); i++) {
+								Element element = sounds.getItem(i);
+								final ImageElement image = ImageElement
+										.as(element);
+								DOM.sinkEvents(
+										(com.google.gwt.user.client.Element) element,
+										Event.ONCLICK);
+								DOM.setEventListener(
+										(com.google.gwt.user.client.Element) element,
+										new EventListener() {
+											@Override
+											public void onBrowserEvent(
+													Event event) {
+												if (event.getTypeInt() == Event.ONCLICK) {
+													display.playSound(image
+															.getTitle());
+												}
+											}
+
+										});
+							}
 						} else {
 							display.getExplain().setHTML("unknow word");
 							display.enableAddReview(false);

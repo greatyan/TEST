@@ -102,7 +102,6 @@ public class GoogleDict {
 
 	static class Json2Html {
 
-		
 		Json2Html(JSONObject jsonObject) {
 			StringBuilder sb = new StringBuilder();
 			JSONArray primaries = getArray(jsonObject, "primaries");
@@ -250,11 +249,13 @@ public class GoogleDict {
 					sound += "," + text;
 				}
 
-				sb.append("<a href=\"");
+				// sb.append("<a href=\"");
+				// sb.append(text);
+				// sb.append("\">");
+				sb.append("<img src=\"/resources/SpeakerOffA16.png\" title=\"");
 				sb.append(text);
-				sb.append("\">");
-				sb.append("<img src=\"/resources/SpeakerOffA16.png\"/>");
-				sb.append("</a>");
+				sb.append("\"/>");
+				// sb.append("</a>");
 			} else {
 				sb.append("UNKNOWN  type:" + type);
 			}

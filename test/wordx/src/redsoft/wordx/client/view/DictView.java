@@ -5,6 +5,8 @@ import redsoft.wordx.client.presenter.DictPresenter.Display;
 import redsoft.wordx.client.presenter.DictPresenter.OnAddReviewHandler;
 import redsoft.wordx.client.presenter.DictPresenter.OnSearchHandler;
 
+import com.allen_sauer.gwt.voices.client.Sound;
+import com.allen_sauer.gwt.voices.client.SoundController;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -28,6 +30,8 @@ public class DictView extends Composite implements Display {
 
 	interface DictViewUiBinder extends UiBinder<Widget, DictView> {
 	}
+
+	protected SoundController soundController = new SoundController();
 
 	@UiField
 	protected Image reviewImage;
@@ -61,6 +65,12 @@ public class DictView extends Composite implements Display {
 	@Override
 	public String getHeadword() {
 		return headwordText.getText();
+	}
+
+	public void playSound(String url) {
+		Sound sound = soundController.createSound(Sound.MIME_TYPE_AUDIO_MPEG_MP3,
+				url);
+		sound.play();
 	}
 
 	@Override
