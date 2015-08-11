@@ -1,0 +1,45 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.google.gwt.user.cellview.client">
+	<ui:style>
+		.important {
+			font-weight: bold;
+		}
+	</ui:style>
+	<g:HTMLPanel>
+		<table>
+			<tr>
+				<td>
+					<g:Image ui:field="prevButton" url="resources/Left-32.png" />
+				</td>
+				<td>
+					<g:Image url="resources/Right-32.png" ui:field="levelButton" />
+					<g:Label ui:field="headword" text="New Label" />
+				</td>
+				<td>
+					<g:Image url="resources/Right-32.png" ui:field="nextButton" />
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+		<g:TabLayoutPanel barHeight="2" barUnit="EM" width="250px" height="150px">
+			<g:tab>
+				<g:header>简单</g:header>
+				<g:VerticalPanel>
+					<g:Label ui:field="translation" />
+					<g:Label ui:field="phonetic" />
+				</g:VerticalPanel>
+			</g:tab>
+			<g:tab>
+				<g:header>详细</g:header>
+				<g:VerticalPanel>
+					<g:HTML ui:field="explain" />
+				</g:VerticalPanel>
+			</g:tab>
+		</g:TabLayoutPanel>
+				</td>
+			</tr>
+		</table>
+
+	</g:HTMLPanel>
+</ui:UiBinder> 
