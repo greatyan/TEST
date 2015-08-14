@@ -15,16 +15,20 @@ public class Client {
 	private WebSocketClient client;
 	private Session userSession = null;
 
-	public Client(URI endpointURI) {
-
+	public Client() throws Exception {
 		this.client = new WebSocketClient();
-		try {
-			this.client.start();
-			this.client.connect(this, endpointURI);
-			System.out.printf("Connecting to : %s%n", endpointURI);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+	}
+
+	public void connect(URI endpointURI) throws Exception {
+		if (isConnected()) {
+			throw new IOException("has connected");
 		}
+		this.client.start();
+		this.client.connect(this, endpointURI);
+	}
+
+	public boolean isConnected() {
+		return userSession != null;
 	}
 
 	public void close() throws Exception {
@@ -37,7 +41,7 @@ public class Client {
 
 	@OnWebSocketConnect
 	public void onOpen(Session userSession) {
-		System.out.println("wsocked opened");
+		System.out.println("socket connected.");
 		this.userSession = userSession;
 	}
 
@@ -53,6 +57,7 @@ public class Client {
 	}
 
 	public void sendMessage(String message) throws IOException {
+		System.out.println("send:" + message);
 		this.userSession.getRemote().sendString(message);
 	}
 
